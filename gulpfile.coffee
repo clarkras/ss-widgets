@@ -6,14 +6,12 @@ concat = require 'gulp-concat'
 uglify = require 'gulp-uglify'
 sass = require 'gulp-sass'
 refresh = require 'gulp-livereload'
-
 lr_server = require('tiny-lr')()
-
-app = require './server/app'
+nodemon = require 'gulp-nodemon'
 
 # Starts the webserver (http://localhost:3000)
 gulp.task 'webserver', ->
-  app.start 3000
+  nodemon script: './server/app.coffee', options: '--watch ./server'
 
 # Starts the livereload server
 gulp.task 'livereload', ->

@@ -13,7 +13,6 @@ app.use express.urlencoded()
 app.get '/api/:name', (req, res) ->
   res.json 200, 'hello': req.params.name
 
-exports.start = (port) ->
-  app.listen port, ->
-    console.log 'ready, captain'
+app.listen 3000, ->
+  console.log 'ready, captain'
 
