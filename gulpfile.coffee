@@ -7,28 +7,17 @@ uglify = require 'gulp-uglify'
 sass = require 'gulp-sass'
 refresh = require 'gulp-livereload'
 
-connect = require 'connect'
-http = require 'http'
-path = require 'path'
-lr = require 'tiny-lr'
-server = do lr
+lr_server = require('tiny-lr')()
+
+app = require './server/app'
 
 # Starts the webserver (http://localhost:3000)
 gulp.task 'webserver', ->
-	port = 3000
-	hostname = null # allow to connect from anywhere
-	base = path.resolve '.'
-	directory = path.resolve '.'
-
-	app = connect()
-		.use(connect.static base)
-		.use(connect.directory directory)
-
-	http.createServer(app).listen port, hostname
+  app.start 3000
 
 # Starts the livereload server
 gulp.task 'livereload', ->
-    server.listen 35729, (err) ->
+    lr_server.listen 35729, (err) ->
         console.log err if err?
 
 # Compiles CoffeeScript files into js file
@@ -39,7 +28,7 @@ gulp.task 'scripts', ->
 		.pipe(do coffee)
 		.pipe(do uglify)
 		.pipe(gulp.dest 'scripts/js')
-		.pipe(refresh server)
+		.pipe(refresh lr_server)
 
 # Compiles Sass files into css file
 # and reloads the styles
@@ -48,12 +37,12 @@ gulp.task 'styles', ->
         .pipe(sass includePaths: ['styles/scss/includes'])
         .pipe(concat 'styles.css')
         .pipe(gulp.dest 'styles/css')
-        .pipe(refresh server)
+        .pipe(refresh lr_server)
 
 # Reloads the page
 gulp.task 'html', ->
 	gulp.src('*.html')
-		.pipe(refresh server)
+		.pipe(refresh lr_server)
 
 # Watches files for changes
 gulp.task 'watch', ->
