@@ -25,7 +25,11 @@
     "coffeeify": "~0.6.0",
     "handlebars": "~1.3.0",
     "browserify-handlebars": "~0.2.0",
-    "gulp-clean": "~0.2.4"
+    "gulp-clean": "~0.2.4",
+    "brfs": "~0.2.1",
+    "jquery": "~2.1.0",
+    "backbone": "~1.1.2",
+    "gulp-if": "0.0.5"
   },
   "repository": {
     "type": "git",
