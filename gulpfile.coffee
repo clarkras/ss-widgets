@@ -23,12 +23,13 @@ gulp.task 'livereload', ->
 # Compiles CoffeeScript files into js file and reloads the page
 # Specify --minify on the command line to create minified script.
 gulp.task 'scripts', ->
-	stream = gulp.src('lib/proto/js/proto.coffee', read: false)
+  stream = gulp.src('lib/proto/js/proto.coffee', read: false)
     .pipe(browserify(
         transform: ['browserify-handlebars', 'coffeeify', 'brfs']
     ))
 		.pipe(rename 'scripts.js')
     .pipe(gulp.dest 'dist/js')    # creates scripts/js/scripts.js
+    .pipe(refresh lr_server)
   if gutil.env.minify
     stream.pipe(rename('scripts.min.js'))
       .pipe(uglify())
